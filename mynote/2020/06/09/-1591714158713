@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ "$1" = "/tmp/mnt/netgear" ] ; then
+  ln -nsf $1/entware /tmp/opt
+fi
