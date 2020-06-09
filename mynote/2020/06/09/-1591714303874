@@ -1,0 +1,7 @@
+#!/bin/sh
+
+/usr/bin/onwanstart.sh
+sh /koolshare/scripts/ss_config.sh
+/usr/bin/plugin.sh start
+
+cru a ZeroTierDaemon "* * * * * /opt/etc/init.d/S90zerotier-one.sh start"
