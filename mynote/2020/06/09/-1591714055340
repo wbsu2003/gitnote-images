@@ -1,0 +1,8 @@
+#!/bin/sh
+
+/usr/bin/onnatstart.sh
+sh /koolshare/ss/ssconfig.sh
+
+modprobe tun
+iptables -t nat -A PREROUTING -d 192.168.191.10 -p tcp -m multiport --dport 21,22,80 -j DNAT --to-destination 192.168.0.1
+/opt/etc/init.d/S90zerotier-one.sh
