@@ -1,0 +1,20 @@
+#!/bin/sh
+
+logger -t "custom iptables" "Enter" -p user.notice
+
+iptables -C INPUT -i zt+ -j ACCEPT
+
+if [ $? != 0 ]; then
+
+  iptables -I INPUT -i zt+ -j ACCEPT
+  iptables -t nat -I PREROUTING -i zt+ -d 192.168.191.0/24 -p tcp -m multiport --dport 21,22,80 -j DNAT --to-destination `nvram get lan_ipaddr`
+
+  # 2020.06.09  https://blog.urusai.me/2019/using-zerotier-to-combine-gateways/
+  iptables -I FORWARD -i zt+ -j ACCEPT
+  iptables -I FORWARD -o zt+ -j ACCEPT
+  iptables -t nat -I POSTROUTING -o zt+ -j MASQUERADE
+
+  logger -t "custom iptables" "rules added" -p user.notice
+else
+  logger -t "custom iptables" "rules existed skip" -p user.notice
+fi
